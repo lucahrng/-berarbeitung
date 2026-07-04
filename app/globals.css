@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: "Inter", system-ui, sans-serif;
+}
+
+.serif {
+  font-family: "Source Serif 4", Georgia, serif;
+}
+
+.stamp {
+  transform: rotate(-4deg);
+  border: 2.5px solid #c0392b;
+  color: #c0392b;
+  letter-spacing: 0.08em;
+}
