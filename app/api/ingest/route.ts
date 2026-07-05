@@ -20,6 +20,17 @@ type MythRow = {
   embedding: unknown;
 };
 
+function withCORS(res: NextResponse) {
+  res.headers.set("Access-Control-Allow-Origin", "*");
+  res.headers.set("Access-Control-Allow-Methods", "POST, OPTIONS");
+  res.headers.set("Access-Control-Allow-Headers", "Content-Type, x-ingest-secret");
+  return res;
+}
+
+export async function OPTIONS() {
+  return withCORS(new NextResponse(null, { status: 204 }));
+}
+
 function findBestMythMatch(videoEmbedding: number[], myths: MythRow[]) {
   let best: { mythId: string; similarity: number } | null = null;
   for (const myth of myths) {
@@ -41,25 +52,24 @@ async function upsertCandidate(admin: any, row: Record<string, unknown>) {
 export async function POST(req: NextRequest) {
   const secret = req.headers.get("x-ingest-secret");
   if (secret !== process.env.INGEST_SECRET) {
-    return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+    return withCORS(NextResponse.json({ error: "unauthorized" }, { status: 401 }));
   }
 
   const admin = supabaseAdmin();
   const { data: myths } = await admin.from("myths").select("id, claim, fact, embedding");
-  if (!myths?.length) return NextResponse.json({ error: "keine myths in DB" }, { status: 400 });
+  if (!myths?.length) return withCORS(NextResponse.json({ error: "keine myths in DB" }, { status: 400 }));
 
   const missingEmbeddings = myths.filter((m: MythRow) => !m.embedding).length;
   if (missingEmbeddings > 0) {
-    return NextResponse.json(
+    return withCORS(NextResponse.json(
       { error: `${missingEmbeddings} Mythen ohne Embedding. Erst POST /api/embed-myths aufrufen.` },
       { status: 400 }
-    );
+    ));
   }
 
   let inserted = 0;
   const errors: string[] = [];
 
-  // ---------- YouTube ----------
   const apiKey = process.env.YOUTUBE_API_KEY;
   if (apiKey) {
     for (const query of SEARCH_QUERIES) {
@@ -116,7 +126,6 @@ export async function POST(req: NextRequest) {
     errors.push("YOUTUBE_API_KEY fehlt - YouTube uebersprungen");
   }
 
-  // ---------- TikTok (via Apify) ----------
   if (process.env.APIFY_TOKEN) {
     try {
       const actorId = process.env.APIFY_TIKTOK_ACTOR_ID || "clockworks/tiktok-scraper";
@@ -166,7 +175,6 @@ export async function POST(req: NextRequest) {
       errors.push(`tiktok: ${e.message}`);
     }
 
-    // ---------- Instagram (via Apify) ----------
     try {
       const actorId = process.env.APIFY_INSTAGRAM_ACTOR_ID || "apify/instagram-hashtag-scraper";
       const items: any[] = await runApifyActor(actorId, {
@@ -217,5 +225,5 @@ export async function POST(req: NextRequest) {
     errors.push("APIFY_TOKEN fehlt - TikTok/Instagram uebersprungen");
   }
 
-  return NextResponse.json({ ok: true, inserted, errors });
+  return withCORS(NextResponse.json({ ok: true, inserted, errors }));
 }
