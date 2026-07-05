@@ -6,6 +6,8 @@ import {
   Youtube,
   Instagram,
   Music2,
+  Twitter,
+  Linkedin
   Eye,
   MessageCircle,
   Check,
@@ -25,6 +27,9 @@ const PLATFORM_META: Record<string, { label: string; icon: any; color: string }>
   youtube: { label: "YouTube", icon: Youtube, color: "#E23F44" },
   tiktok: { label: "TikTok", icon: Music2, color: "#00C2B8" },
   instagram: { label: "Instagram", icon: Instagram, color: "#C1447E" },
+    x: { label: "X", icon: Twitter, color: "#E8E8E8" },
+  linkedin: { label: "LinkedIn", icon: Linkedin, color: "#3D8FD6" },
+
 };
 
 function formatNum(n: number) {
@@ -179,7 +184,7 @@ export default function Page() {
           <div className="flex items-center gap-1.5 text-paper/40 text-xs pr-1">
             <Filter size={13} /> Plattform:
           </div>
-          {["all", "youtube", "tiktok", "instagram"].map((p) => (
+          {["all", "youtube", "tiktok", "instagram", "x", "linkedin"].map((p) => (
             <button
               key={p}
               onClick={() => setPlatformFilter(p)}
