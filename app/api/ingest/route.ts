@@ -3,6 +3,8 @@ import { supabaseAdmin } from "@/lib/supabaseClient";
 import { computePriorityScore, computeReachScore, MATCH_CONFIDENCE_THRESHOLD } from "@/lib/scoring";
 import { getEmbedding, cosineSimilarity, parseEmbedding } from "@/lib/embeddings";
 import { runApifyActor } from "@/lib/apify";
+export const maxDuration = 60;
+
 
 const SEARCH_QUERIES = [
   "Honig macht nicht dick",
