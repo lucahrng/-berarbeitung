@@ -248,11 +248,12 @@ export async function POST(req: NextRequest) {
       const r = await ingestApifyPlatform({
         admin, myths, platform: "x",
         actorId: process.env.APIFY_X_ACTOR_ID || "apidojo/tweet-scraper",
-        input: {
-          searchTerms: SEARCH_QUERIES,
+                input: {
+          searchTerms: HASHTAGS.map((h) => `#${h}`),
           maxItems: 15,
           lang: "de",
         },
+        
         mapItem: (item) => ({
           text: item.text ?? item.fullText ?? "",
           views: Number(item.viewCount ?? item.views ?? 0),
