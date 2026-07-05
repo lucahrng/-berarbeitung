@@ -7,7 +7,7 @@ import {
   Instagram,
   Music2,
   Twitter,
-  Linkedin
+  Linkedin,
   Eye,
   MessageCircle,
   Check,
