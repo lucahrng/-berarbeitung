@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: "Poppins", system-ui, sans-serif;
+}
+
+.serif {
+  font-family: "Poppins", system-ui, sans-serif;
+  font-weight: 700;
+}
+
+.stamp {
+  transform: rotate(-4deg);
+  border: 2.5px solid #c1573d;
+  color: #c1573d;
+  letter-spacing: 0.08em;
+}
