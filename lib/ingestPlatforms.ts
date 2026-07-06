@@ -172,7 +172,7 @@ export const PLATFORM_CONFIGS: Record<
   linkedin: {
     actorEnvVar: "APIFY_LINKEDIN_ACTOR_ID",
     defaultActorId: "harvestapi/linkedin-post-search",
-    buildInput: () => ({ searchQueries: SEARCH_QUERIES, maxItems: 8 }),
+    buildInput: () => ({ searchQueries: SEARCH_QUERIES.slice(0, 2), maxItems: 5 }),
     mapItem: (item) => ({
       text: item.text ?? item.content ?? item.commentary ?? "",
       views: Number(item.viewsCount ?? 0),
