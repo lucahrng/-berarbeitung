@@ -121,7 +121,7 @@ export const PLATFORM_CONFIGS: Record<
   tiktok: {
     actorEnvVar: "APIFY_TIKTOK_ACTOR_ID",
     defaultActorId: "clockworks/tiktok-scraper",
-    buildInput: () => ({ hashtags: HASHTAGS, resultsPerPage: 15 }),
+    buildInput: () => ({ hashtags: HASHTAGS, resultsPerPage: 8 }),
     mapItem: (item) => ({
       text: item.text ?? item.desc ?? "",
       views: Number(item.playCount ?? item.views ?? 0),
@@ -138,7 +138,7 @@ export const PLATFORM_CONFIGS: Record<
   instagram: {
     actorEnvVar: "APIFY_INSTAGRAM_ACTOR_ID",
     defaultActorId: "apify/instagram-hashtag-scraper",
-    buildInput: () => ({ hashtags: HASHTAGS, resultsLimit: 15 }),
+    buildInput: () => ({ hashtags: HASHTAGS, resultsLimit: 8 }),
     mapItem: (item) => ({
       text: item.caption ?? "",
       views: Number(item.videoViewCount ?? item.videoPlayCount ?? 0),
