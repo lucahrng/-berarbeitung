@@ -58,7 +58,7 @@ export async function POST(req: NextRequest) {
       await Promise.all(
         SEARCH_QUERIES.map(async (query) => {
           try {
-            const searchUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&relevanceLanguage=de&maxResults=6&q=${encodeURIComponent(query)}&key=${apiKey}`;
+            const searchUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&relevanceLanguage=de&maxResults=4&q=${encodeURIComponent(query)}&key=${apiKey}`;
             const searchData = await (await fetch(searchUrl)).json();
             if (!searchData.items) return;
 
